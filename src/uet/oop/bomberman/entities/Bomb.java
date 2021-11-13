@@ -115,6 +115,7 @@ public class Bomb extends Entity {
         }
         return false;
     }
+
     @Override
     public void update() {
         currentTime = System.currentTimeMillis();

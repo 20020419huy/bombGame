@@ -14,6 +14,8 @@ public class Bomber extends DynamicEntity {
     private double speed = 2;
     private int power_up = Constant.POWER_UP_1;
     private double speedAnimation = 100;
+    private final int CAN_FIX_POS = 16;
+    private final int DISTANCE_FIX_POS = 1;
     private int oldPosX;
     private int oldPosY;
     private int sumBomb = 0;
@@ -80,12 +82,28 @@ public class Bomber extends DynamicEntity {
         } else if(direc == null) {
             status = Constant.STATUS_STAND;
         }
-        int collision = checkCollision();
-        if(collision != Constant.NO_COLLISION) {
-            if(collision == Constant.COLLISION_WITH_ALIEN || collision == Constant.COLLISION_WITH_FLAME)
+        Entity entity = subCheckCollision();
+        if(entity != null) {
+            if(entity instanceof Alien || entity instanceof Flame)
                 status = Constant.STATUS_DESTROY;
-            x = oldPosX;
-            y  = oldPosY;
+            else if (entity instanceof Wall || entity instanceof Brick) {
+                x = oldPosX;
+                y = oldPosY;
+                if(entity.x + entity.sprite._realWidth <= x || x + sprite._realWidth <= entity.x) {
+                    if(entity.y + entity.sprite._realHeight - y <= CAN_FIX_POS) {
+                        y = y + DISTANCE_FIX_POS;
+                    } else if (y + sprite._realHeight - entity.y <= CAN_FIX_POS) {
+                        y = y - DISTANCE_FIX_POS;
+                    }
+                } else if (y + sprite._realHeight <= entity.y || entity.y + entity.sprite._realHeight <= y) {
+                    if(entity.x + entity.sprite._realWidth - x <= CAN_FIX_POS) {
+                        x += DISTANCE_FIX_POS;
+                    } else if(x + sprite._realWidth - entity.x <= CAN_FIX_POS) {
+                        x -= DISTANCE_FIX_POS;
+                    }
+
+                }
+            }
         }
 
     }

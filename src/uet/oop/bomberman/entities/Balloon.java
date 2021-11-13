@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Balloon extends Alien{
     private double speedAnimation = 100;
+    private double speedAnimationDead = 300;
     private AnimationFrame animationFrame;
     private ArrayList<Sprite> frameRight = new ArrayList<Sprite>();
     private ArrayList<Sprite> frameDown = new ArrayList<Sprite>();
@@ -59,10 +60,13 @@ public class Balloon extends Alien{
                 animationFrame.loadFrame();
                 timeStartDead = System.currentTimeMillis();
             } else {
-                if (currentTime - timeStartDead > 3 * speedAnimation) {
+                if (currentTime - timeStartDead > 3 * speedAnimationDead) {
                     status = Constant.STATUS_DESTROYED;
                     animationFrame.loadFrame();
                     animationFrame.stopAnimation();
+                } else {
+                    animationFrame.setTime(speedAnimationDead);
+                    animationFrame.loadFrame();
                 }
             }
         }

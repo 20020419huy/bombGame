@@ -84,4 +84,17 @@ public class DynamicEntity extends Entity {
         }
         return Constant.NO_COLLISION;
     }
+
+    protected Entity subCheckCollision() {
+        for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+            if(BombermanGame.stillObjects.get(i) instanceof Wall || BombermanGame.stillObjects.get(i) instanceof Brick || BombermanGame.stillObjects.get(i) instanceof Flame || BombermanGame.stillObjects.get(i) instanceof Alien) {
+                boolean checkCollision = Duplicate.collision(this, BombermanGame.stillObjects.get(i));
+                if(checkCollision) {
+                    return BombermanGame.stillObjects.get(i);
+                }
+            }
+        }
+        //if no collision
+        return null;
+    }
 }

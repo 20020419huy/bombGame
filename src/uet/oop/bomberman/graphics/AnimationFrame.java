@@ -41,6 +41,10 @@ public class AnimationFrame {
         this.framesDestroy = framesDestroy;
     }
 
+    public void setTime(double time) {
+        this.time = time;
+    }
+
     public void loadFrame() {
         if(entity.status == Constant.STATUS_UP) {
             frames = framesUp;
