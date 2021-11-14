@@ -28,7 +28,7 @@ public abstract class Entity {
     }
 
     public void render(GraphicsContext gc) {
-        gc.drawImage(sprite._realImage, x, y);
+        gc.drawImage(sprite._realImage, x, y) ;
     }
     public abstract void update();
 }

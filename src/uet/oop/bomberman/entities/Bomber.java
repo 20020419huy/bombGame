@@ -11,15 +11,15 @@ import java.util.TimerTask;
 
 
 public class Bomber extends DynamicEntity {
-    private double speed = 2;
+    private double speed = 3;
     private int power_up = Constant.POWER_UP_1;
     private double speedAnimation = 100;
-    private final int CAN_FIX_POS = 16;
+    private final int CAN_FIX_POS = Sprite.SCALED_SIZE / 2;
     private final int DISTANCE_FIX_POS = 1;
     private int oldPosX;
     private int oldPosY;
     private int sumBomb = 0;
-    private final int MAX_BOMB = 1;
+    private final int MAX_BOMB = 100;
     public static KeyCode KEY_BOMB = KeyCode.SPACE;
     private AnimationFrame animationFrame;
     private ArrayList<Sprite> frameRight = new ArrayList<Sprite>();
@@ -78,7 +78,10 @@ public class Bomber extends DynamicEntity {
             x -=  speed;
             status = Constant.STATUS_LEFT;
         }  else if(direc == KEY_BOMB) {
-            setBomb();
+            if(status == Constant.STATUS_STAND) {
+                setBomb();
+                status = Constant.STATUS_SET_BOMB;
+            }
         } else if(direc == null) {
             status = Constant.STATUS_STAND;
         }
@@ -101,7 +104,6 @@ public class Bomber extends DynamicEntity {
                     } else if(x + sprite._realWidth - entity.x <= CAN_FIX_POS) {
                         x -= DISTANCE_FIX_POS;
                     }
-
                 }
             }
         }
@@ -119,5 +121,4 @@ public class Bomber extends DynamicEntity {
             Bomb bomb = new Bomb((x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE, Sprite.bomb, Constant.POWER_UP_MAX);
         }
     }
-
 }

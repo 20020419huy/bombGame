@@ -8,20 +8,23 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.SubClass.Constant;
 import uet.oop.bomberman.graphics.Map;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<>();
     private Map map = new Map();
     private Bomber bomber = null;
     private KeyCode direc = null;
@@ -37,8 +40,8 @@ public class BombermanGame extends Application {
 
         // Tao root container
         Group root = new Group();
+        root.setClip(new Rectangle(Sprite.SCALED_SIZE * (Constant.WIDTH / 2), Sprite.SCALED_SIZE * Constant.HEIGHT));
         root.getChildren().add(canvas);
-
         // Tao map
         bomber = (Bomber) stillObjects.get(map.createMap(1));
         // Tao scene
@@ -62,16 +65,16 @@ public class BombermanGame extends Application {
 
     public void move(Scene scene) {
         scene.setOnKeyPressed((KeyEvent e) -> {
-            if(e.getCode() != Bomber.KEY_BOMB) {
+//            if(e.getCode() != Bomber.KEY_BOMB) {
                 direc = e.getCode();
-            }
+//            }
         });
         scene.setOnKeyReleased((KeyEvent e) -> {
-            if(e.getCode() != Bomber.KEY_BOMB) {
+//            if(e.getCode() != Bomber.KEY_BOMB) {
                 direc = null;
-            } else {
-                direc = e.getCode();
-            }
+//            } else {
+//                direc = e.getCode();
+//            }
         });
     }
 
@@ -79,11 +82,18 @@ public class BombermanGame extends Application {
         for (int i = 0; i < stillObjects.size(); i++) {
             stillObjects.get(i).update();
         }
+        updateCanvas();
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+    }
+
+    private void updateCanvas() {
+        if(-1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) < 0 && -1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) > -1 * Sprite.SCALED_SIZE * (Constant.WIDTH / 2 + 1)) {
+            canvas.setLayoutX(- bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4));
+        }
     }
 }
