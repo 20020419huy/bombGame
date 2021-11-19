@@ -40,7 +40,7 @@ public class BombermanGame extends Application {
 
         // Tao root container
         Group root = new Group();
-        root.setClip(new Rectangle(Sprite.SCALED_SIZE * (Constant.WIDTH / 2), Sprite.SCALED_SIZE * Constant.HEIGHT));
+        root.setClip(new Rectangle(Sprite.SCALED_SIZE * (Constant.WIDTH / 2), Sprite.SCALED_SIZE * (Constant.HEIGHT/2)));
         root.getChildren().add(canvas);
         // Tao map
         bomber = (Bomber) stillObjects.get(map.createMap(1));
@@ -94,6 +94,9 @@ public class BombermanGame extends Application {
     private void updateCanvas() {
         if(-1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) < 0 && -1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) > -1 * Sprite.SCALED_SIZE * (Constant.WIDTH / 2 + 1)) {
             canvas.setLayoutX(- bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4));
+        }
+        if(-1 * bomber.y + Sprite.SCALED_SIZE * (Constant.HEIGHT / 4) < 0 && -1 * bomber.y + Sprite.SCALED_SIZE * (Constant.HEIGHT / 4) > -1 * Sprite.SCALED_SIZE * (Constant.HEIGHT / 2)) {
+            canvas.setLayoutY(- bomber.y + Sprite.SCALED_SIZE * (Constant.HEIGHT / 4));
         }
     }
 }

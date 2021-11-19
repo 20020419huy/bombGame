@@ -31,7 +31,7 @@ public class Constant {
     public static final int STATUS_FLAME_LEFT = 18;
 
     public static final int WIDTH = 31;
-    public static final int HEIGHT = 13;
+    public static final int HEIGHT = 26;
 
     public static final int POWER_UP_MAX = 4;
     public static final int POWER_UP_1 = 1;

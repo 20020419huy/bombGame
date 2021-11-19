@@ -1,7 +1,11 @@
 package uet.oop.bomberman.graphics;
 
+import javafx.scene.layout.Background;
+import uet.oop.bomberman.entities.Brick;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -27,7 +31,7 @@ public class SpriteSheet {
 	
 	private void load() {
 		try {
-			URL a = SpriteSheet.class.getResource(_path);
+			URL a = Brick.class.getResource(_path);
 			image = ImageIO.read(a);
 			int w = image.getWidth();
 			int h = image.getHeight();
