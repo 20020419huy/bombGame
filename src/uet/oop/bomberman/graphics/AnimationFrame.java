@@ -60,7 +60,7 @@ public class AnimationFrame {
             frames = Constant.getTransparent();
         }
 
-        if(entity.status != Constant.STATUS_STAND){
+        if(entity.status != Constant.STATUS_STAND && entity.status != Constant.STATUS_SET_BOMB){
             if(isPressed == false) {
                 isPressed = true;
                 timeline = new Timeline(

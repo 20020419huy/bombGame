@@ -75,6 +75,7 @@ public class Flame extends DynamicEntity  {
         startTime = System.currentTimeMillis();
         BombermanGame.stillObjects.add(this);
         animationFrame.loadFrame();
+        Constant.getSound(Constant.URL_SOUND_BOMB_EXPLOSION).start();
     }
     private void stopFlame() {
         status = Constant.STATUS_DESTROYED;

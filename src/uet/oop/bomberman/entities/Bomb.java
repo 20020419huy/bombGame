@@ -6,6 +6,7 @@ import uet.oop.bomberman.graphics.AnimationFrame;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.graphics.SpriteSheet;
 
+import javax.sound.sampled.Clip;
 import java.util.ArrayList;
 
 public class Bomb extends Entity {
@@ -16,8 +17,9 @@ public class Bomb extends Entity {
     private Flame right;
     private Flame bottom;
     private Flame left;
-    private final int MAX_BOM = 3;
-    private int currentBomb = 0;
+
+ /*   private final int MAX_BOM = 3;
+    private int currentBomb = 0;*/
     private ArrayList<Flame> betweenTop = new ArrayList<>();
     private ArrayList<Flame> betweenRight = new ArrayList<>();
     private ArrayList<Flame> betweenBottom = new ArrayList<>();
@@ -154,7 +156,6 @@ public class Bomb extends Entity {
                         bottom.collision = true;
                     }
                 }
-
             }
             if(left.status != Constant.STATUS_DESTROYED) {
                 if(preventFlame(betweenLeft)) {

@@ -7,27 +7,50 @@ import uet.oop.bomberman.entities.SubClass.Constant;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.text.AbstractDocument.Content;
-
 public class Map {
-
+    private int random() {
+        int random = (int)(Math.random() * 100 + 1);
+        if(random <= Constant.PERCENT_ITEM_HEAL) {
+            return Constant.PERCENT_ITEM_HEAL;
+        } else if(random > Constant.PERCENT_ITEM_HEAL && random <= Constant.PERCENT_ITEM_BOMB + Constant.PERCENT_ITEM_HEAL) {
+            return Constant.PERCENT_ITEM_BOMB;
+        } else if(random > Constant.PERCENT_ITEM_BOMB + Constant.PERCENT_ITEM_HEAL && random <= Constant.PERCENT_ITEM_SPEED + Constant.PERCENT_ITEM_BOMB + Constant.PERCENT_ITEM_HEAL) {
+            return Constant.PERCENT_ITEM_SPEED;
+        }
+        return -1;
+    }
     public int createMap(int level) {
         File file = null;
         int posBomber = -1;
         Scanner scanner = null;
         URL url = getClass().getResource(Constant.BASE_MAP_URL + Integer.toString(level) + ".txt");
         file = new File(url.getFile());
-        try {
-            scanner = new Scanner(file);
             for (int i = 0; i < Constant.HEIGHT; i++) {
                 for (int j = 0; j < Constant.WIDTH; j++) {
                     BombermanGame.stillObjects.add(new Grass(j, i, Sprite.grass));
                 }
             }
-          
+
+        try {
+            scanner = new Scanner(file);
+            for (int i = 0; i < Constant.HEIGHT; i++) {
+                String data = scanner.nextLine();
+                for (int j = 0; j < Constant.WIDTH; j++) {
+                   if(data.charAt(j) == Constant.MAP_BRICK) {
+                       int random = random();
+                       if(random == Constant.PERCENT_ITEM_HEAL) {
+                           BombermanGame.stillObjects.add(new Item(j, i, Sprite.powerup_detonator, Constant.TYPE_ITEM_HEAL));
+                       } else if(random == Constant.PERCENT_ITEM_BOMB) {
+                           BombermanGame.stillObjects.add(new Item(j, i, Sprite.powerup_bombs, Constant.TYPE_ITEM_BOMB));
+                       } else if(random == Constant.PERCENT_ITEM_SPEED) {
+                           BombermanGame.stillObjects.add(new Item(j, i, Sprite.powerup_speed, Constant.TYPE_ITEM_SPEED));
+                       }
+                   }
+                }
+            }
+            scanner = new Scanner(file);
             for (int i = 0; i < Constant.HEIGHT; i++) {
                 String data = scanner.nextLine();
                 for (int j = 0; j < Constant.WIDTH; j++) {
@@ -44,12 +67,6 @@ public class Map {
                         BombermanGame.stillObjects.add(new Balloon(j, i, Sprite.balloom_right1));
                     } else if (data.charAt(j) == Constant.MAP_ONEAL) {
                         BombermanGame.stillObjects.add(new Oneal(j ,i, Sprite.oneal_right1));
-                    } else if (data.charAt(j) == Constant.MAP_BOMB_ITEM) {
-                        BombermanGame.stillObjects.add(new BombItem(j, i, Sprite.bomb));
-                    } else if (data.charAt(j) == Constant.MAP_POWER_UP) {
-                        BombermanGame.stillObjects.add(new FlameItem(j, i, Sprite.powerup_flames));
-                    } else if(data.charAt(j) == Constant.MAP_POWER_SPEED) {
-                        BombermanGame.stillObjects.add(new SpeedItem(j, j, Sprite.powerup_speed));
                     }
                 }
             }
@@ -58,5 +75,4 @@ public class Map {
         }
         return posBomber;
     }
-
 }

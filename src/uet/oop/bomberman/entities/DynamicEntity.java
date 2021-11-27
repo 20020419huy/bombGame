@@ -13,7 +13,6 @@ public class DynamicEntity extends Entity {
 
     public DynamicEntity(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
-      
     }
 
     @Override
@@ -82,6 +81,30 @@ public class DynamicEntity extends Entity {
                 }
             }
         }
+        if(this instanceof Item) {
+            boolean isDestroyedBrick = false;
+            for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+                if(BombermanGame.stillObjects.get(i) instanceof Brick && BombermanGame.stillObjects.get(i).x == x && BombermanGame.stillObjects.get(i).y == y) {
+                    if(BombermanGame.stillObjects.get(i).status == Constant.STATUS_DESTROYED) {
+                        isDestroyedBrick = true;
+                    }
+                    break;
+                }
+            }
+            if(isDestroyedBrick) {
+                for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+                    if (BombermanGame.stillObjects.get(i) instanceof Bomber) {
+                        boolean checkCollision = Duplicate.collision(this, BombermanGame.stillObjects.get(i));
+                        if (checkCollision) {
+                            System.out.println("collision bomber");
+                            return Constant.COLLISION_WITH_BOMBER;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
         return Constant.NO_COLLISION;
     }
 
@@ -91,6 +114,22 @@ public class DynamicEntity extends Entity {
                 boolean checkCollision = Duplicate.collision(this, BombermanGame.stillObjects.get(i));
                 if(checkCollision) {
                     return BombermanGame.stillObjects.get(i);
+                }
+            } else if(BombermanGame.stillObjects.get(i) instanceof Item) {
+                boolean checkCollision = Duplicate.collision(this, BombermanGame.stillObjects.get(i));
+                boolean isDestroyedBrick = false;
+                for (int j = 0; i < BombermanGame.stillObjects.size(); j++) {
+                    if(BombermanGame.stillObjects.get(j) instanceof Brick && BombermanGame.stillObjects.get(j).x == BombermanGame.stillObjects.get(i).x && BombermanGame.stillObjects.get(j).y == BombermanGame.stillObjects.get(i).y) {
+                        if(BombermanGame.stillObjects.get(j).status == Constant.STATUS_DESTROYED) {
+                            isDestroyedBrick = true;
+                        }
+                        break;
+                    }
+                }
+                if(isDestroyedBrick) {
+                    if(checkCollision) {
+                        return BombermanGame.stillObjects.get(i);
+                    }
                 }
             }
         }

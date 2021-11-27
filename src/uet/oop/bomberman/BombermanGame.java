@@ -6,23 +6,31 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.SubClass.Constant;
 import uet.oop.bomberman.graphics.Map;
 import uet.oop.bomberman.graphics.Sprite;
 
+import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
+    private HBox menu;
     public static List<Entity> stillObjects = new ArrayList<>();
     private List<Entity> entities = new ArrayList<>();
     private Map map = new Map();
@@ -37,11 +45,18 @@ public class BombermanGame extends Application {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * Constant.WIDTH, Sprite.SCALED_SIZE * Constant.HEIGHT);
         gc = canvas.getGraphicsContext2D();
-
+        //tao menu
+        menu = new HBox(Sprite.SCALED_SIZE);
+        menu.setPrefWidth(Sprite.SCALED_SIZE * (Constant.WIDTH / 2));
+        menu.setPrefHeight(Sprite.SCALED_SIZE * Constant.HEIGHT_MENU);
+        menu.getChildren().add(new Text("hello world"));
+        menu.getChildren().add(new Text("hello world"));
+        menu.getChildren().add(new Text("hello world"));
         // Tao root container
         Group root = new Group();
-        root.setClip(new Rectangle(Sprite.SCALED_SIZE * (Constant.WIDTH / 2), Sprite.SCALED_SIZE * (Constant.HEIGHT/2)));
-        root.getChildren().add(canvas);
+        root.setClip(new Rectangle(Sprite.SCALED_SIZE * (Constant.WIDTH / 2), Sprite.SCALED_SIZE * (Constant.HEIGHT + Constant.HEIGHT_MENU)));
+        root.getChildren().addAll(menu, canvas);
+        canvas.setLayoutY(Sprite.SCALED_SIZE * Constant.HEIGHT_MENU);
         // Tao map
         bomber = (Bomber) stillObjects.get(map.createMap(1));
         // Tao scene
@@ -92,11 +107,8 @@ public class BombermanGame extends Application {
     }
 
     private void updateCanvas() {
-        if(-1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) < 0 && -1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) > -1 * Sprite.SCALED_SIZE * (Constant.WIDTH / 2 + 1)) {
+        if(-1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) <= 0 && -1 * bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4) >= -1 * Sprite.SCALED_SIZE * (Constant.WIDTH / 2 + 1)) {
             canvas.setLayoutX(- bomber.x + Sprite.SCALED_SIZE * (Constant.WIDTH / 4));
-        }
-        if(-1 * bomber.y + Sprite.SCALED_SIZE * (Constant.HEIGHT / 4) < 0 && -1 * bomber.y + Sprite.SCALED_SIZE * (Constant.HEIGHT / 4) > -1 * Sprite.SCALED_SIZE * (Constant.HEIGHT / 2)) {
-            canvas.setLayoutY(- bomber.y + Sprite.SCALED_SIZE * (Constant.HEIGHT / 4));
         }
     }
 }
